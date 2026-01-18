@@ -165,7 +165,7 @@ fasce_settimanali: Dict[str, List[Fascia_oraria]] = {
         Fascia_oraria(["1N", "1Agr", "1Bgr"], "15:40", "15:07", "15:55", 8),
         Fascia_oraria(["1N", "1Agr", "1Bgr"], "16:40", "15:59", "16:45", 9),
 
-        # fascie recanati
+        # fascie sede2
         Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
                        "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "08:52", 1),
         Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
@@ -257,3 +257,4 @@ def controlla_esistenza_fasce(giorno: str, da_controllare: str) -> Fascia_oraria
             return fascia
 
     raise ValueError(f"Fascia non trovata {giorno} {da_controllare}")
+
