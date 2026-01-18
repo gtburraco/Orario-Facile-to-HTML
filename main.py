@@ -8,10 +8,12 @@ from PySide6.QtGui import QCloseEvent, QDesktopServices
 from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QDialog, QFileDialog
 
 import config
+import config_manager
 import parti_html
 from messaggi import show_error, show_info, show_question
 from modelli.classe import Classe
 from modelli.docente import Docente
+from modelli.fascia_oraria import Fascia_oraria
 from modelli.lezione import Lezione
 from modelli.stanza import Stanza
 from parser_xml import XMLScheduleParser
@@ -49,7 +51,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.printer_service = HTMLPrintingService()
 
+
+
     def load_lezioni(self):
+        try:
+            config_manager.load_config()
+        except Exception as e:
+            show_error(self,e,"Problemi nel file di configurazione\nVerrà tentata una configurazione automatica")
+
         try:
             file_path, _ = QFileDialog.getOpenFileName(
                 parent=self,
@@ -67,13 +76,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             "Premere ok per processare")
 
             lezioni_aggiunte: List[Lezione] = []
+            lezioni_cancellare: List[Lezione] = []
+            # primo passaggio. non lo posso inserire in quello successivo
+            # per il calcolo delle fasce
+
+            for lezione in self.lezioni:
+                if not lezione.get_insegnanti_str():
+                    lezioni_cancellare.append(lezione)
+
+            if lezioni_cancellare:
+                show_info(self,f"Ci sono {len(lezioni_cancellare)} lezioni senza docente\nSaranno cancellate")
+                for item in lezioni_cancellare:
+                    self.lezioni.remove(item)
+
+            # tentativo di calcolo automatico
+            if not config.fasce_settimanali:
+                config.fasce_settimanali = {g: [] for g in config.giorni_di_scuola}
+                for lezione in self.lezioni:
+                    giorno = lezione.giorno
+                    gia_presente = any(f.da_ora_xml == lezione.tempo for f in config.fasce_settimanali[giorno])
+                    if not gia_presente:
+                        config.fasce_settimanali[lezione.giorno].append(Fascia_oraria(["*"], lezione.tempo, lezione.tempo, "", 0))
+
+                for giorno in config.fasce_settimanali:
+                    config.fasce_settimanali[giorno].sort(key=lambda x: x.da_ora_xml)
+                    for i, fascia in enumerate(config.fasce_settimanali[giorno], start=1):
+                        fascia.blocco_orario = i
+
+                for g in config.giorni_di_scuola:
+                    print(f"Fasce settimanali {g}:\n", config.fasce_settimanali[g])
 
             for lezione in self.lezioni:
                 # Controllo congruità
                 if not lezione.tempo: raise ValueError(f"Lezione senza orario {lezione}")
                 if not lezione.giorno: raise ValueError(f"Lezione senza giorno {lezione}")
                 if not lezione.durata: raise ValueError(f"Lezione senza durata {lezione}")
-                if not lezione.get_insegnanti_str(): raise Exception(f"Lezione senza insegnanti {lezione}")
 
                 config.controlla_esistenza_fasce(lezione.giorno, lezione.tempo)
 
@@ -104,6 +141,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     lezioni_aggiunte.append(new_lezione)
 
                 lezione.durata = config.lunghezza_ora_xml  # alla fine rimane il modulo minore
+
 
             self.lezioni.extend(lezioni_aggiunte)
             self.lezioni.sort(key=lambda x: (
@@ -188,7 +226,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for g in list(config.fasce_settimanali.keys()):
                 if not config.fasce_settimanali[g]:
                     del config.fasce_settimanali[g]
-            print(f"FASCE SETTIMANALI: {config.fasce_settimanali}")
+                else:
+                    print(f"FASCE SETTIMANALI: {config.fasce_settimanali[g]}")
 
             # pulisco la lista cancellando i giorni senza fasce settimanali
             config.giorni_di_scuola = [g for g in config.giorni_di_scuola if g in config.fasce_settimanali]
@@ -384,18 +423,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("Orario facile wrapper")
-    app.setApplicationVersion("1.0")
+    app.setApplicationName("Orario Facile to HTML")
+    app.setApplicationVersion("1.1")
 
     window = MainWindow()
     window.show()
-    # 🔹 Close splash di PyInstaller
-    if hasattr(sys, "_MEIPASS"):
-        try:
-            import pyi_splash
-            pyi_splash.close()
-        except ImportError:
-            pass
     sys.exit(app.exec())
 
 

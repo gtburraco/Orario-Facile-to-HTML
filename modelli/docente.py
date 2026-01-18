@@ -43,8 +43,6 @@ class Docente:
     def genera_tabella_html(self) -> str:
         max_blocco_orario: int = max(l.fascia_oraria.blocco_orario for l in self.lezioni)
 
-        print("BLOCCO ", max_blocco_orario)
-
         html = [f"<center><h1>{self.nome}</h1></center>",
                 "<table class=\"Tabella\"><thead><tr>"]
         for giorno in config.giorni_di_scuola:

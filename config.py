@@ -10,7 +10,7 @@ mappa_giorni_di_scuola_per_ordinamento = {"LUN": 1, "MAR": 2, "MER": 3, "GIO": 4
 lunghezza_ora_xml = 60 # da qui capisce se ci sono 2 ore
 
 # cancellazione di blocchi non necessari
-subjet_da_cancellare: List[str] = ["--PRANZO--", "==PRANZO=="]
+subjet_da_cancellare: List[str] = []
 site_da_cancellare: List[str] = []
 module_da_cancellare: List[str] = []
 
@@ -18,45 +18,7 @@ module_da_cancellare: List[str] = []
 # altrimenti nell'orario della classe rimane il buco
 # groups_da_sostituire: Dict[str,str] = {}
 
-groups_da_sostituire: Dict[str, str] = {
-    "1A FRANCESE_2": "1A",
-    "1B SPAGNOLO_2": "1N",
-
-    "2A FRANCESE_2": "2A",
-    "2B SPAGNOLO_2": "2B",
-
-    "3A FRANCESE_2": "3A",
-    "3A SPAGNOLO_2": "3A",
-    "3A TEDESCO_2": "3A",
-
-    "3F FRANCESE_2": "3F",
-    "3F SPAGNOLO_2": "3F",
-    "3F TEDESCO_2": "3F",
-
-    "3L FRANCESE_2": "3L",
-    "3L FRANCESE_3": "3L",
-    "3L SPAGNOLO_2": "3L",
-    "3L SPAGNOLO_3": "3L",
-    "3L TEDESCO_2": "3L",
-    "3L TEDESCO_3": "3L",
-
-    "4A SPAGNOLO_2": "4A",
-
-    "4L FRANCESE_2": "4L",
-    "4L FRANCESE_3": "4L",
-    "4L SPAGNOLO_2": "4L",
-    "4L SPAGNOLO_3": "4L",
-    "4L TEDESCO_2": "4L",
-    "4L TEDESCO_3": "4L",
-
-    "5A FRANCESE_2": "5A",
-    "5A SPAGNOLO_2": "5A",
-
-    "5L FRANCESE_3": "5L",
-    "5L SPAGNOLO_2": "5L",
-    "5L TEDESCO_3": "5L",
-
-}
+groups_da_sostituire: Dict[str, str] = {}
 
 #queste sono le fascie settimanali, * è quella di default ci deve sempre stare
 #poi c'è il valore che si trova nell'xml che non è detto corrisponda all'inizio reale
@@ -65,7 +27,8 @@ groups_da_sostituire: Dict[str, str] = {
 #poi c'è l'intervallo, che serve solo a livello di stampa.
 #sono gestite anche le eccezzioni
 
-fasce_settimanali: Dict[str, List[Fascia_oraria]] = {
+fasce_settimanali: Dict[str, List[Fascia_oraria]] = {}
+"""
     giorni_di_scuola[0]: [  # LUN
         Fascia_oraria(["*"], "07:55", "07:55", "08:47", 1),
         Fascia_oraria(["*"], "08:49", "08:51", "09:41", 2),
@@ -188,7 +151,7 @@ fasce_settimanali: Dict[str, List[Fascia_oraria]] = {
     giorni_di_scuola[6]: [  # DOM
     ],
 }
-
+"""
 #######################################
 # NON TOCCARE LE FUNZIONI SOTTOSTANTI #
 #######################################
@@ -257,4 +220,3 @@ def controlla_esistenza_fasce(giorno: str, da_controllare: str) -> Fascia_oraria
             return fascia
 
     raise ValueError(f"Fascia non trovata {giorno} {da_controllare}")
-

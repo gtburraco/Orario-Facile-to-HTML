@@ -1,0 +1,5 @@
+Il file config.json deve stare nella stessa cartella del main.py
+Questo di esempio è specifico per questo orario.
+Se lo si vuole provare copiatelo nella stessa cartella del main.py
+In mancanza di file di configurazione il programma cercherà il più possibile di
+calcolare automaticamente tutti i parametri necessari.
