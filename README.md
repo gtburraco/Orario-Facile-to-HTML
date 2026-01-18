@@ -14,6 +14,6 @@ Requisiti
 # Configurazione
 Il software utilizza un file di configurazione centralizzato per adattarsi alle diverse strutture scolastiche.
 
-* Apri il file config.py
+* Il programma cerca un file config.json, ne è presente uno nella cartella di esempio, in mancanza cercherà di calcolare tutto il necessario in autonomia.
 * Modifica le variabili in base alle necessità del tuo istituto.
 * Salva e avvia l'applicazione.
