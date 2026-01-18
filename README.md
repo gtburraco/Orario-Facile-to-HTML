@@ -2,7 +2,7 @@
 Orario Facile to HTML è un tool sviluppato in Python e PySide6 progettato per trasformare i dati XML generati dal software "Orario Facile" in stampe HTML pulite, moderne e altamente personalizzabili.
 
 Il software nasce dall'esigenza di superare i limiti dei report predefiniti, offrendo una gestione granulare delle eccezioni scolastiche e una visualizzazione dei dati ottimizzata per la consultazione web o la stampa.
-Ho carcato di farla piu compatibile possibile, nel nostro istituto abbiamo parecchie eccezzioni e sono tutte gestite.
+Ho carcato di farla piu compatibile possibile, nel nostro istituto abbiamo parecchie eccezioni e sono tutte gestite.
 
 
 # Installazione e Setup
