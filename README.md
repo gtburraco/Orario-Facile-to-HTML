@@ -15,5 +15,5 @@ Requisiti
 Il software utilizza un file di configurazione centralizzato per adattarsi alle diverse strutture scolastiche.
 
 * Apri il file config.py
-* #Modifica le variabili in base alle necessità del tuo istituto.
+* Modifica le variabili in base alle necessità del tuo istituto.
 * Salva e avvia l'applicazione.
