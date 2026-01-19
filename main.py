@@ -1,6 +1,8 @@
 import base64
+import collections
 import copy
 import sys
+
 from typing import List
 
 from PySide6.QtCore import Qt, QStandardPaths
@@ -9,6 +11,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QHeaderView, QDialog, Q
 
 import config
 import config_manager
+import export_xlsx
 import parti_html
 from messaggi import show_error, show_info, show_question
 from modelli.classe import Classe
@@ -31,7 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.card_non_modal_windows = []
         self.setupUi(self)
-
+        self.setWindowTitle(QApplication.applicationName() + " - " + QApplication.applicationVersion())
         self.lezioni: List[Lezione] = []
         self.insegnanti: List[Docente] = []
         self.classi: List[Classe] = []
@@ -45,6 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.load_btn.clicked.connect(self.load_lezioni)
         self.salva_html_btn.clicked.connect(self.salva_html)
+        self.salva_xlsx_btn.clicked.connect(self.salva_xlsx)
         self.table_view_docenti.doubleClicked.connect(self.docenti_doppio_click)
         self.table_view_classi.doubleClicked.connect(self.classi_doppio_click)
         self.table_view_stanze.doubleClicked.connect(self.stanze_doppio_click)
@@ -57,7 +61,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             config_manager.load_config()
         except Exception as e:
-            show_error(self,e,"Problemi nel file di configurazione\nVerrà tentata una configurazione automatica")
+            show_error(self,e,"Problemi nel file di configurazione\nDeve obbligatoriamente esistere")
+            return
 
         try:
             file_path, _ = QFileDialog.getOpenFileName(
@@ -68,12 +73,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             if not file_path:
                 return
+
             parser = XMLScheduleParser(file_path)
             self.lezioni = parser.parse()
             num_lezioni = len(self.lezioni)
 
             show_info(self, f"Caricate {num_lezioni} lezioni.\n\n"
                             "Premere ok per processare")
+
+            self.lezioni.sort(key=lambda x: (
+                x.localita,
+                config.mappa_giorni_di_scuola_per_ordinamento.get(x.giorno, 99),
+                x.fascia_oraria.da_ora if x.fascia_oraria else "00:00"
+            ))
 
             lezioni_aggiunte: List[Lezione] = []
             lezioni_cancellare: List[Lezione] = []
@@ -90,35 +102,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.lezioni.remove(item)
 
             # tentativo di calcolo automatico
-            if not config.fasce_settimanali:
-                config.fasce_settimanali = {g: [] for g in config.giorni_di_scuola}
-                for lezione in self.lezioni:
-                    giorno = lezione.giorno
-                    gia_presente = any(f.da_ora_xml == lezione.tempo for f in config.fasce_settimanali[giorno])
-                    if not gia_presente:
-                        config.fasce_settimanali[lezione.giorno].append(Fascia_oraria(["*"], lezione.tempo, lezione.tempo, "", 0))
-
-                for giorno in config.fasce_settimanali:
-                    config.fasce_settimanali[giorno].sort(key=lambda x: x.da_ora_xml)
-                    for i, fascia in enumerate(config.fasce_settimanali[giorno], start=1):
-                        fascia.blocco_orario = i
-
-                for g in config.giorni_di_scuola:
-                    print(f"Fasce settimanali {g}:\n", config.fasce_settimanali[g])
-
             for lezione in self.lezioni:
                 # Controllo congruità
-                if not lezione.tempo: raise ValueError(f"Lezione senza orario {lezione}")
+                if not lezione.tempo: raise ValueError(f"Lezione senza tempo {lezione}")
                 if not lezione.giorno: raise ValueError(f"Lezione senza giorno {lezione}")
                 if not lezione.durata: raise ValueError(f"Lezione senza durata {lezione}")
+                if not lezione.localita: raise ValueError(f"Lezione senza localita {lezione}")
 
-                config.controlla_esistenza_fasce(lezione.giorno, lezione.tempo)
+                config.controlla_esistenza_fasce(lezione.localita, lezione.giorno, lezione.tempo)
 
                 if lezione.classi_scolastiche:  # la prima va bene anche se sono articolate
-                    lezione.fascia_oraria = config.trova_fascia(lezione.giorno, lezione.tempo,
+                    lezione.fascia_oraria = config.trova_fascia(lezione.localita, lezione.giorno, lezione.tempo,
                                                                 lezione.classi_scolastiche[0])
                 else:
-                    lezione.fascia_oraria = config.trova_fascia(lezione.giorno, lezione.tempo, None)
+                    lezione.fascia_oraria = config.trova_fascia(lezione.localita, lezione.giorno, lezione.tempo, None)
 
                 if lezione.durata < config.lunghezza_ora_xml:
                     lezione.durata = config.lunghezza_ora_xml
@@ -135,7 +132,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     new_lezione = copy.copy(lezione)
                     new_lezione.numero_blocchi = 1
                     new_lezione.durata = config.lunghezza_ora_xml
-                    new_lezione.fascia_oraria = config.trova_fascia_successiva(new_lezione.giorno, fascia_per_loop)
+                    new_lezione.fascia_oraria = config.trova_fascia_successiva(new_lezione.localita, new_lezione.giorno, fascia_per_loop)
                     fascia_per_loop = new_lezione.fascia_oraria
                     lezione.numero_blocchi -= 1
                     lezioni_aggiunte.append(new_lezione)
@@ -145,6 +142,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.lezioni.extend(lezioni_aggiunte)
             self.lezioni.sort(key=lambda x: (
+                x.localita,
                 config.mappa_giorni_di_scuola_per_ordinamento.get(x.giorno, 99),
                 x.fascia_oraria.da_ora if x.fascia_oraria else "00:00"
             ))
@@ -165,8 +163,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     config.mappa_giorni_di_scuola_per_ordinamento.get(x.giorno, 99),
                     x.fascia_oraria.da_ora if x.fascia_oraria else "00:00"
                 ))
+                conteggio = collections.Counter(
+                    lezione.localita
+                    for lezione in lezioni_associate
+                    if lezione.localita
+                )
+
+                localita_uniche = sorted(
+                    conteggio.keys(),
+                    key=lambda loc: (-conteggio[loc], loc)
+                )
+
+                localita_formattate = [
+                    f"{loc} ({conteggio[loc]})"
+                    for loc in localita_uniche
+                ]
+
                 # 3. Creiamo l'istanza di Docente
-                nuovo_docente = Docente(nome=nome_docente, lezioni=lezioni_associate)
+                nuovo_docente = Docente(nome=nome_docente, lezioni=lezioni_associate, localita=localita_uniche, localita_con_numero=localita_formattate)
                 self.insegnanti.append(nuovo_docente)
 
             # 4. Ordiniamo la lista finale dei docenti per nome (alfabetico)
@@ -179,11 +193,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             classi_map = {}
             for lezione in self.lezioni:
                 for classe in lezione.classi_scolastiche:
-                    if classe not in classi_map:
-                        classi_map[classe] = []
-                    classi_map[classe].append(lezione)
+                    chiave = (classe, lezione.localita)
+                    if chiave not in classi_map:
+                        classi_map[chiave] = []
+                    classi_map[chiave].append(lezione)
 
-            for nome_classe, lezioni_associate in classi_map.items():
+            for (nome_classe, localita), lezioni_associate in classi_map.items():
                 # 2. Ordiniamo le lezioni del singola classe internamente
                 # Prima per giorno e poi per ora
                 lezioni_associate.sort(key=lambda x: (
@@ -191,7 +206,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     x.fascia_oraria.da_ora if x.fascia_oraria else "00:00"
                 ))
                 # 3. Creiamo l'istanza di Classe
-                nuova_classe = Classe(nome=nome_classe, lezioni=lezioni_associate)
+                nuova_classe = Classe(nome=nome_classe, localita=localita, lezioni=lezioni_associate)
                 self.classi.append(nuova_classe)
 
             # 4. Ordiniamo la lista finale delle classi per nome (alfabetico)
@@ -203,11 +218,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #########################################################################
             stanze_map = {}
             for lezione in self.lezioni:
-                if lezione.stanza not in stanze_map:
-                    stanze_map[lezione.stanza] = []
-                stanze_map[lezione.stanza].append(lezione)
+                chiave = (lezione.stanza, lezione.localita)
+                if chiave not in stanze_map:
+                    stanze_map[chiave] = []
+                stanze_map[chiave].append(lezione)
 
-            for nome_stanza, lezioni_associate in stanze_map.items():
+            for (nome_stanza, localita), lezioni_associate in stanze_map.items():
                 # 2. Ordiniamo le stanze del singola classe internamente
                 # Prima per giorno e poi per ora
                 lezioni_associate.sort(key=lambda x: (
@@ -215,7 +231,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     x.fascia_oraria.da_ora if x.fascia_oraria else "00:00"
                 ))
                 # 3. Creiamo l'istanza di Classe
-                nuova_stanza = Stanza(nome=nome_stanza, lezioni=lezioni_associate)
+                nuova_stanza = Stanza(nome=nome_stanza, localita=localita, lezioni=lezioni_associate)
                 self.stanze.append(nuova_stanza)
 
             # 4. Ordiniamo la lista finale delle stanze per nome (alfabetico)
@@ -280,6 +296,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             show_info(self, f"Processate {num_lezioni} lezioni.")
             self.load_btn.setEnabled(False)
             self.salva_html_btn.setEnabled(True)
+            self.salva_xlsx_btn.setEnabled(True)
 
         except Exception as e:
             show_error(self, e, "Errore caricamento orario")
@@ -292,8 +309,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.lezioni:
             return
 
-        nome_suggerito = "orario_sostituzioni.html"
-        filtro = "File HTML (*.html *.htm);;Tutti i file (*)"
         file_path, _ = QFileDialog.getSaveFileName(
             parent=self,
             caption="Salva come...",
@@ -336,6 +351,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QDesktopServices.openUrl(file_path)
         except Exception as e:
             show_error(self, e, "Errore salvataggio")
+
+    def salva_xlsx(self):
+        if not self.insegnanti:
+            return
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            parent=self,
+            caption="Salva come...",
+            dir=QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DocumentsLocation),
+            filter="File XLSX (*.xlsx);;Tutti i file (*)"
+        )
+        if not file_path:
+            return
+
+        try:
+            export_xlsx.esporta_xlsx(self.insegnanti, file_path)
+            show_info(self,"File salvato correttamente.")
+        except Exception as e:
+            show_error(self, e, "Errore esportazione exsx")
+
 
     def docenti_doppio_click(self):
         selection = self.table_view_docenti.selectionModel().currentIndex()
@@ -424,7 +459,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Orario Facile to HTML")
-    app.setApplicationVersion("1.1")
+    app.setApplicationVersion("1.2")
 
     window = MainWindow()
     window.show()

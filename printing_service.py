@@ -1,7 +1,6 @@
 import os
 import tempfile
 from typing import List
-
 from PySide6.QtCore import QObject, QUrl, QTimer
 from PySide6.QtGui import QDesktopServices
 
@@ -46,7 +45,7 @@ class HTMLPrintingService(QObject):
             QDesktopServices.openUrl(file_url)
 
             # Opzionale: Pulizia automatica dopo 5 minuti per non attendere la chiusura dell'app
-            QTimer.singleShot(300000, lambda: self._remove_file(temp_path))
+            # QTimer.singleShot(300000, lambda: self._remove_file(temp_path))
 
         except Exception as e:
             # Qui potresti emettere un segnale di errore verso il ViewModel

@@ -42,6 +42,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.salva_html_btn)
 
+        self.salva_xlsx_btn = QPushButton(self.centralwidget)
+        self.salva_xlsx_btn.setObjectName(u"salva_xlsx_btn")
+        self.salva_xlsx_btn.setEnabled(False)
+
+        self.horizontalLayout.addWidget(self.salva_xlsx_btn)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
@@ -141,6 +147,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.load_btn.setText(QCoreApplication.translate("MainWindow", u"Carica XML", None))
         self.salva_html_btn.setText(QCoreApplication.translate("MainWindow", u"Salva HTML", None))
+        self.salva_xlsx_btn.setText(QCoreApplication.translate("MainWindow", u"Salva XLSX", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_lezioni), QCoreApplication.translate("MainWindow", u"Lezioni", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Doppio click del mouse per mostrare le lezioni associate al docente", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_docenti), QCoreApplication.translate("MainWindow", u"Docenti", None))

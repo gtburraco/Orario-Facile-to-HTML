@@ -1,22 +1,18 @@
 from typing import List
-
-import config
 from modelli.lezione import Lezione
-
+import config
 
 class Docente:
     """Rappresenta un insegnante e la sua logica."""
 
-    def __init__(self, nome: str, lezioni: list[Lezione]):
+    def __init__(self, nome: str, lezioni: list[Lezione], localita: List[str], localita_con_numero: List[str]):
         self.nome = nome
+        self.localita = localita
+        self.localita_con_numero = localita_con_numero ## SOLO VISUALIZZAZIONE
         self.lezioni = lezioni  # Lista di oggetti Lezione associati
 
     def cerca_lezione_per_giorno_e_blocco(self, giorno: str, blocco: int) -> List[Lezione] | None:
-        return [
-            l
-            for l in self.lezioni
-            if l.giorno == giorno and l.fascia_oraria.blocco_orario == blocco
-        ]
+        return [ l for l in self.lezioni if l.giorno == giorno and l.fascia_oraria.blocco_orario == blocco ]
 
     @property
     def numero_lezioni(self) -> int:
@@ -59,7 +55,7 @@ class Docente:
                     (l.fascia_oraria.intervallo for l in lezioni_trovate if l.fascia_oraria.intervallo),
                     None
                 )
-                val = intervallo_lezione or config.trova_intervallo(giorno, blocco_orario_attuale)
+                val = intervallo_lezione or config.trova_intervallo(self.localita[0], giorno, blocco_orario_attuale)
                 if val:
                     giorni_con_intervallo[giorno] = val
 

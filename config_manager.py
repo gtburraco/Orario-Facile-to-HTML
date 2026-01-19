@@ -34,7 +34,7 @@ def load_config(filepath: str = "config.json"):
                     lista_raw = raw_fasce.get(giorno, [])
                     # Trasformiamo i dizionari JSON in oggetti FasciaOraria (immutabili)
                     config.fasce_settimanali[giorno] = [Fascia_oraria(**f) for f in lista_raw]
-                    print(f"Fasce settimanali {giorno}:\n", config.fasce_settimanali[giorno])
+                    #print(f"Fasce settimanali {giorno}:\n", config.fasce_settimanali[giorno])
             else:
                 print("Fasce settimanali non trovate, verranno calcolate automaticamente se possibile")
     except Exception as e:

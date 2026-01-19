@@ -7,16 +7,13 @@ from modelli.lezione import Lezione
 class Stanza:
     """Rappresenta un insegnante e la sua logica."""
 
-    def __init__(self, nome: str, lezioni: list[Lezione]):
+    def __init__(self, nome: str, localita: str, lezioni: list[Lezione]):
         self.nome = nome
+        self.localita = localita
         self.lezioni = lezioni  # Lista di oggetti Lezione associati
 
     def cerca_lezione_per_giorno_e_blocco(self, giorno: str, blocco: int) -> List[Lezione] | None:
-        return [
-            l
-            for l in self.lezioni
-            if l.giorno == giorno and l.fascia_oraria.blocco_orario == blocco
-        ]
+        return [l for l in self.lezioni if l.giorno == giorno and l.fascia_oraria.blocco_orario == blocco ]
 
     def __repr__(self):
         return f"Stanza({self.nome})"
@@ -27,7 +24,7 @@ class Stanza:
     def genera_tabella_html(self) -> str:
         max_blocco_orario: int = max(l.fascia_oraria.blocco_orario for l in self.lezioni)
 
-        html = [f"<center><h1>{self.nome}</h1></center>",
+        html = [f"<center><h1>{self.nome}</h1><h2>{self.localita}</h2></center>",
                 "<table class=\"Tabella\"><thead><tr>"]
         for giorno in config.giorni_di_scuola:
             html.append(f"<th>{giorno}</th>")
@@ -43,7 +40,7 @@ class Stanza:
                     (l.fascia_oraria.intervallo for l in lezioni_trovate if l.fascia_oraria.intervallo),
                     None
                 )
-                val = intervallo_lezione or config.trova_intervallo(giorno, blocco_orario_attuale)
+                val = intervallo_lezione or config.trova_intervallo(self.localita, giorno, blocco_orario_attuale)
                 if val:
                     giorni_con_intervallo[giorno] = val
 

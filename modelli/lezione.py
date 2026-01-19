@@ -1,7 +1,5 @@
 from typing import List, Optional
-
 from modelli.fascia_oraria import Fascia_oraria
-
 
 class Lezione:
     """Rappresenta una singola lezione estratta dal file XML."""
@@ -17,11 +15,8 @@ class Lezione:
         self.moduli = moduli
 
         # Inizializzazione delle liste per gestire i campi multipli
-
-        self.classi_scolastiche = []
+        self.classi_scolastiche: List[str] = []
         self.insegnanti: List[str] = []
-
-        self.numero_blocchi: int = 0  # numero dei blocchi di questa lezione multipli del minimo
         self.fascia_oraria: Optional[Fascia_oraria] = None
 
     # prendo insegnanti
@@ -45,6 +40,11 @@ class Lezione:
 
     def get_classi_scolastiche_html(self) -> str:
         return '<br>'.join(self.classi_scolastiche) if self.classi_scolastiche else self.soggetto
+
+    def get_classi_scolastiche_xlsx(self) -> str:
+        return '\n'.join(self.classi_scolastiche) if self.classi_scolastiche else self.soggetto
+
+
 
     def get_classi_orario_html(self) -> str:  # questa per la stampa orario dell'insegnante
         return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.soggetto + "</b><br><i>" + self.get_insegnanti_html() + "</i>"

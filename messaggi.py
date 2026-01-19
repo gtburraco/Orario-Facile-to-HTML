@@ -1,10 +1,9 @@
 from PySide6.QtWidgets import QWidget, QMessageBox
 
-
 def show_error(parent: QWidget, e: Exception, text: str):
     msg = QMessageBox(
         QMessageBox.Icon.Critical,
-        parent.tr("Error"),
+        parent.tr("Errore"),
         text,
         QMessageBox.StandardButton.Ok,
         parent
@@ -13,11 +12,10 @@ def show_error(parent: QWidget, e: Exception, text: str):
         msg.setDetailedText(str(e))
     msg.exec()
 
-
 def show_warning(parent: QWidget, text: str, details: str = None):
     msg = QMessageBox(
         QMessageBox.Icon.Warning,
-        parent.tr("Warning"),
+        parent.tr("Attenzione"),
         text,
         QMessageBox.StandardButton.Ok,
         parent
@@ -25,12 +23,11 @@ def show_warning(parent: QWidget, text: str, details: str = None):
     if details:
         msg.setDetailedText(details)
     msg.exec()
-
 
 def show_info(parent: QWidget, text: str, details: str = None):
     msg = QMessageBox(
         QMessageBox.Icon.Information,
-        parent.tr("Information"),
+        parent.tr("Informazioni"),
         text,
         QMessageBox.StandardButton.Ok,
         parent
@@ -38,7 +35,6 @@ def show_info(parent: QWidget, text: str, details: str = None):
     if details:
         msg.setDetailedText(details)
     msg.exec()
-
 
 def show_question(parent: QWidget, text: str, details: str = None) -> bool:
     return QMessageBox.question(parent, parent.tr("Question"), text,

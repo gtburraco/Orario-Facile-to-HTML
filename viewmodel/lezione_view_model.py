@@ -1,10 +1,7 @@
 from typing import List
-
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
-
-import config
 from modelli.lezione import Lezione  # Assumendo che il file si chiami lezione.py
-
+import config
 
 class LezioniTableModel(QAbstractTableModel):
     # Definizione delle colonne per evitare errori di indice
@@ -15,9 +12,10 @@ class LezioniTableModel(QAbstractTableModel):
     COL_CLASSI = 4
     COL_AULA = 5
     COL_MATERIA = 6
+    COL_LOCAL = 7
 
     ORDINE_GIORNI = {"LUN": 1, "MAR": 2, "MER": 3, "GIO": 4, "VEN": 5, "SAB": 6, "DOM": 7}
-    HEADERS = ["Giorno", "Da", "Ad", "Docente", "Classe", "Aula/Sede", "Materia"]
+    HEADERS = ["Giorno", "Da", "Ad", "Docente", "Classe", "Aula/Sede", "Materia","Località"]
 
     def __init__(self, lezioni: List[Lezione] = None):
         super().__init__()
@@ -46,8 +44,9 @@ class LezioniTableModel(QAbstractTableModel):
             if col == self.COL_AD_ORA: return lezione.fascia_oraria.ad_ora
             if col == self.COL_MATERIA: return lezione.soggetto or "-"
             if col == self.COL_CLASSI: return lezione.get_classi_scolastiche_str()
-            if col == self.COL_AULA:   return f"{lezione.stanza} ({lezione.localita})" if lezione.stanza else lezione.localita
+            if col == self.COL_AULA:   return f"{lezione.stanza}" if lezione.stanza else "-"
             if col == self.COL_DOCENTI: return lezione.get_insegnanti_str()
+            if col == self.COL_LOCAL: return lezione.localita
 
         # Ruolo di allineamento
         if role == Qt.ItemDataRole.TextAlignmentRole:
@@ -62,7 +61,7 @@ class LezioniTableModel(QAbstractTableModel):
             return self.HEADERS[section]
         return None
 
-    from PySide6.QtCore import Qt
+
 
     # All'interno della classe LezioniTableModel
     def sort(self, column: int, order: Qt.SortOrder = Qt.SortOrder.AscendingOrder):
@@ -99,13 +98,15 @@ class LezioniTableModel(QAbstractTableModel):
             # Esempio ordine giorni
             self._lezioni.sort(
                 key=lambda x: (
-                    self.ORDINE_GIORNI.get(x.giorno, 9),
+                    self.ORDINE_GIORNI.get(x.giorno, 99),
                     x.tempo
                 ),
                 reverse=reverse
             )
         elif column == self.COL_CLASSI:
             self._lezioni.sort(key=lambda x: (x.get_classi_scolastiche_sort() or "").lower(), reverse=reverse)
+        elif column == self.COL_LOCAL:
+            self._lezioni.sort(key=lambda x: (x.localita or "", self.ORDINE_GIORNI.get(x.giorno, 99),x.tempo).lower(), reverse=reverse)
 
         self.layoutChanged.emit()
 

@@ -1,14 +1,12 @@
 from typing import List
-
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
-
 from modelli.stanza import Stanza
-
 
 class StanzeTableModel(QAbstractTableModel):
     COL_NOME = 0
+    COL_LOCAL = 1
 
-    HEADERS = ["Stanza"]
+    HEADERS = ["Stanza","Località"]
 
     def __init__(self, stanze: List[Stanza] = None):
         super().__init__()
@@ -39,12 +37,12 @@ class StanzeTableModel(QAbstractTableModel):
 
             if col == self.COL_NOME:
                 return stanza.nome
+            if col == self.COL_LOCAL:
+                return stanza.localita
 
         # Allineamenti
         if role == Qt.ItemDataRole.TextAlignmentRole:
-            if col == self.COL_NOME:
-                return Qt.AlignmentFlag.AlignLeft
-            return Qt.AlignmentFlag.AlignCenter
+            return Qt.AlignmentFlag.AlignLeft
 
         return None
 
@@ -63,7 +61,9 @@ class StanzeTableModel(QAbstractTableModel):
         reverse = order == Qt.SortOrder.DescendingOrder
 
         if column == self.COL_NOME:
-            self._classi.sort(key=lambda d: d.nome.lower(), reverse=reverse)
+            self._stanze.sort(key=lambda d: d.nome.lower(), reverse=reverse)
+        if column == self.COL_LOCAL:
+            self._stanze.sort(key=lambda d: d.localita.lower(), reverse=reverse)
 
         self.layoutChanged.emit()
 
@@ -73,3 +73,4 @@ class StanzeTableModel(QAbstractTableModel):
         self.beginResetModel()
         self._stanze = nuove_stanze
         self.endResetModel()
+

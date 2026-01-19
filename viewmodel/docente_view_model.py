@@ -1,17 +1,15 @@
 from typing import List
-
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
-
 from modelli.docente import Docente
-
 
 class DocentiTableModel(QAbstractTableModel):
     COL_NOME = 0
     COL_TOTALE = 1
     COL_CON_CLASSE = 2
     COL_SENZA_CLASSE = 3
+    COL_LOCALITA = 4
 
-    HEADERS = ["Docente", "Totale ore", "Ore con classe", "Ore senza classe"]
+    HEADERS = ["Docente", "Totale ore", "Ore con classe", "Ore senza classe","Località"]
 
     def __init__(self, docenti: List[Docente] = None):
         super().__init__()
@@ -52,9 +50,12 @@ class DocentiTableModel(QAbstractTableModel):
             if col == self.COL_SENZA_CLASSE:
                 return docente.ore_senza_classe
 
+            if col == self.COL_LOCALITA:
+                return ", ".join(docente.localita_con_numero)
+
         # Allineamenti
         if role == Qt.ItemDataRole.TextAlignmentRole:
-            if col == self.COL_NOME:
+            if col == self.COL_NOME or col == self.COL_LOCALITA:
                 return Qt.AlignmentFlag.AlignLeft
             return Qt.AlignmentFlag.AlignCenter
 
@@ -85,6 +86,9 @@ class DocentiTableModel(QAbstractTableModel):
 
         elif column == self.COL_SENZA_CLASSE:
             self._docenti.sort(key=lambda d: d.ore_senza_classe, reverse=reverse)
+
+        elif column == self.COL_LOCALITA:
+            self._docenti.sort(key=lambda d: d.localita[0], reverse=reverse)
 
         self.layoutChanged.emit()
 

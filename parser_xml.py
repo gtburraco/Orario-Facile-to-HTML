@@ -1,9 +1,7 @@
 import xml.etree.ElementTree as ET
 from typing import List, Tuple
-
-import config
 from modelli.lezione import Lezione
-
+import config
 
 class XMLScheduleParser:
     """Classe specializzata nel parsing dei dati orario in formato XML."""

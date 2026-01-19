@@ -28,195 +28,73 @@ groups_da_sostituire: Dict[str, str] = {}
 #sono gestite anche le eccezzioni
 
 fasce_settimanali: Dict[str, List[Fascia_oraria]] = {}
-"""
-    giorni_di_scuola[0]: [  # LUN
-        Fascia_oraria(["*"], "07:55", "07:55", "08:47", 1),
-        Fascia_oraria(["*"], "08:49", "08:51", "09:41", 2),
-        Fascia_oraria(["*"], "09:43", "09:45", "10:30", 3, "10:30-10:40"),
-        Fascia_oraria(["*"], "10:40", "10:42", "11:27", 4),
-        Fascia_oraria(["*"], "11:27", "11:31", "12:21", 5),
-        Fascia_oraria(["*"], "12:21", "12:25", "13:15", 6),
-        # Altra sede
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "09:00", 1),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:00", "09:00", "09:55", 2),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:55", "09:55", "10:45", 3, "10:45-10:55"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "10:55", "10:55", "11:45", 4),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "11:45", "11:45", "12:40", 5),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "12:40", "12:40", "13:35", 6)
-    ],
-    giorni_di_scuola[1]: [  # MAR
-        Fascia_oraria(["*"], "07:55", "07:55", "08:47", 1),
-        Fascia_oraria(["*"], "08:49", "08:51", "09:41", 2),
-        Fascia_oraria(["*"], "09:43", "09:45", "10:30", 3, "10:30-10:40"),
-        Fascia_oraria(["*"], "10:40", "10:42", "11:27", 4),
-        Fascia_oraria(["*"], "11:27", "11:31", "12:21", 5),
-        Fascia_oraria(["*"], "12:21", "12:25", "13:15", 6),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "09:00", 1),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:00", "09:00", "09:55", 2),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:55", "09:55", "10:45", 3, "10:45-10:55"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "10:55", "10:55", "11:45", 4),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "11:45", "11:45", "12:40", 5),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "12:40", "12:40", "13:35", 6)
-    ],
-    giorni_di_scuola[2]: [  # MER
-        Fascia_oraria(["*"], "07:55", "07:55", "08:47", 1),
-        Fascia_oraria(["*"], "08:49", "08:51", "09:41", 2),
-        Fascia_oraria(["*"], "09:43", "09:45", "10:30", 3, "10:30-10:40"),
-        Fascia_oraria(["*"], "10:40", "10:42", "11:27", 4),
-        Fascia_oraria(["*"], "11:27", "11:31", "12:21", 5),
-        Fascia_oraria(["*"], "12:21", "12:25", "13:15", 6),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "09:00", 1),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:00", "09:00", "09:55", 2),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:55", "09:55", "10:45", 3, "10:45-10:55"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "10:55", "10:55", "11:45", 4),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "11:45", "11:45", "12:40", 5),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "12:40", "12:40", "13:35", 6)
-    ],
-    giorni_di_scuola[3]: [  # GIO
-        Fascia_oraria(["*"], "07:55", "07:55", "08:47", 1),
-        Fascia_oraria(["*"], "08:49", "08:51", "09:41", 2),
-        Fascia_oraria(["*"], "09:43", "09:45", "10:30", 3, "10:30-10:40"),
-        Fascia_oraria(["*"], "10:40", "10:42", "11:27", 4),
-        Fascia_oraria(["*"], "11:27", "11:31", "12:21", 5),
-        Fascia_oraria(["*"], "12:21", "12:25", "13:15", 6),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "09:00", 1),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:00", "09:00", "09:55", 2),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:55", "09:55", "10:45", 3, "10:45-10:55"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "10:55", "10:55", "11:45", 4),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "11:45", "11:45", "12:40", 5),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "12:40", "12:40", "13:35", 6)
-    ],
-    giorni_di_scuola[4]: [  # VEN
-        Fascia_oraria(["*"], "07:55", "07:55", "08:53", 1),
-        Fascia_oraria(["*"], "08:55", "08:57", "09:55", 2, "09:50-10:05"),
-        Fascia_oraria(["*"], "10:05", "10:07", "11:05", 3),
-        Fascia_oraria(["*"], "11:05", "11:09", "12:05", 4, "12:05-12:25"),
 
-        Fascia_oraria(["*"], "12:25", "12:27", "13:25", 5),
-        Fascia_oraria(["*"], "13:25", "13:29", "14:25", 6, "14:25-14:40"),
-        Fascia_oraria(["*"], "14:40", "14:42", "15:40", 7),
-        Fascia_oraria(["*"], "15:40", "15:44", "16:40", 8),
-
-        # queste sotto hanno un ora in piu il Venerdì
-        Fascia_oraria(["1N", "1Agr", "1Bgr"], "12:15", "12:27", "13:13", 5),
-        Fascia_oraria(["1N", "1Agr", "1Bgr"], "13:25", "13:17", "14:03", 6, "14:05-14:15"),
-        Fascia_oraria(["1N", "1Agr", "1Bgr"], "14:25", "14:17", "15:03", 7),
-        Fascia_oraria(["1N", "1Agr", "1Bgr"], "15:40", "15:07", "15:55", 8),
-        Fascia_oraria(["1N", "1Agr", "1Bgr"], "16:40", "15:59", "16:45", 9),
-
-        # fascie sede2
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:00", "08:00", "08:52", 1),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "08:52", "08:52", "09:44", 2, "09:44-09:54"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "09:54", "09:54", "10:46", 3),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "10:46", "10:46", "11:38", 4, "11:38-11:48"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "11:48", "11:48", "12:40", 5),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "12:40", "12:40", "13:32", 6, "13:32-13:56"),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "13:56", "13:56", "14:48", 7),
-        Fascia_oraria(["1Ass", "1Bss", "1Csp", "2Ass", "2Bss", "2Csp", "2Dsp",
-                       "3Ass", "3Csp", "4Ass", "4Csp", "5Ass", "5Csp"], "14:48", "14:48", "15:40", 8)
-    ],
-    giorni_di_scuola[5]: [  # SAB
-    ],
-    giorni_di_scuola[6]: [  # DOM
-    ],
-}
-"""
 #######################################
 # NON TOCCARE LE FUNZIONI SOTTOSTANTI #
 #######################################
 
 # qui uso le fasce standard, perche non trovo la lezione che ha la sua
-def trova_intervallo(giorno: str, blocco_orario: int) -> str | None:
-    f = trova_fascia_da_blocco(giorno, blocco_orario, None)
+def trova_intervallo(localita: str, giorno: str, blocco_orario: int) -> str | None:
+    f = trova_fascia_da_blocco(localita,giorno, blocco_orario, None)
     if f:
         return f.intervallo
     return None
 
 
-def trova_fascia_da_blocco(giorno: str, blocco_orario: int, classe: str | None) -> Fascia_oraria | None:
+def trova_fascia_da_blocco(localita: str, giorno: str, blocco_orario: int, classe: str | None) -> Fascia_oraria | None:
     # prima cerco quella specifica
     if classe:
         for f in fasce_settimanali[giorno]:
-            if f.blocco_orario == blocco_orario and classe in f.classe_scolastica:
+            if  f.localita==localita and f.blocco_orario == blocco_orario and classe in f.classe_scolastica:
                 return f
         # fallback sulla "*"
 
     for f in fasce_settimanali[giorno]:
-        if f.blocco_orario == blocco_orario:
+        if f.localita==localita and f.blocco_orario == blocco_orario:
             return f
     return None
 
 
-def trova_fascia(giorno: str, ora_xml: str, classe: str | None) -> Fascia_oraria:
+def trova_fascia(localita: str, giorno: str, ora_xml: str, classe: str | None) -> Fascia_oraria:
     # prima cerco quella specifica
     if classe:
         for f in fasce_settimanali[giorno]:
-            if f.da_ora_xml == ora_xml and classe in f.classe_scolastica:
+            if f.localita==localita and  f.da_ora_xml == ora_xml and classe in f.classe_scolastica:
                 return f
 
     # fallback sulla "*"
     for f in fasce_settimanali[giorno]:
-        if f.da_ora_xml == ora_xml and "*" in f.classe_scolastica:
+        if f.localita==localita and f.da_ora_xml == ora_xml and "*" in f.classe_scolastica:
             return f
 
     # fallback sulle eccezzioni
-    for f in fasce_settimanali[giorno]:
-        if f.da_ora_xml == ora_xml:
-            return f
+    #for f in fasce_settimanali[giorno]:
+    #    if f.da_ora_xml == ora_xml:
+    #        return f
 
-    raise ValueError(f"Nessuna fascia per {giorno} {ora_xml} classe {classe}")
+    raise ValueError(f"Nessuna fascia per {localita}  {giorno} {ora_xml} classe {classe}")
 
 
-def trova_fascia_successiva(giorno: str, f_attuale: Fascia_oraria) -> Fascia_oraria:
+def trova_fascia_successiva(localita:str, giorno: str, f_attuale: Fascia_oraria) -> Fascia_oraria:
     lista_fasce = fasce_settimanali.get(giorno, [])
-    for i, f in enumerate(lista_fasce):
+    fasce_filtrate = sorted(
+        [f for f in lista_fasce if f.localita == f_attuale.localita],
+        key=lambda f: f.blocco_orario
+    )
+    for i, f in enumerate(fasce_filtrate):
         # Verifica uguaglianza (basata sui tuoi criteri XML)
-        if f.da_ora_xml == f_attuale.da_ora_xml and f.classe_scolastica == f_attuale.classe_scolastica:
-            if i + 1 < len(lista_fasce):
-                return lista_fasce[i + 1]
-            # Se è l'ultimo, decidiamo cosa ritornare (es. None o errore)
-            raise ValueError(f"Fascia successiva non trovata: {f_attuale}")
-    raise ValueError(f"Errore Fascia successiva: {f_attuale}")
+        if f.blocco_orario == (f_attuale.blocco_orario+1) and f.classe_scolastica == f_attuale.classe_scolastica:
+            return fasce_filtrate[i]
+    raise ValueError(f"Errore Fascia successiva: {giorno} {f_attuale}")
 
 
-def controlla_esistenza_fasce(giorno: str, da_controllare: str) -> Fascia_oraria:
+def controlla_esistenza_fasce(localita: str, giorno: str, ora_xml: str) -> Fascia_oraria:
     if giorno not in fasce_settimanali:
         raise ValueError(f"Giorno non valido: {giorno}")
 
-    fascia_oraria = fasce_settimanali[giorno]
-    for fascia in fascia_oraria:
-        if da_controllare == fascia.da_ora_xml:
+    fascia_giornaliera = fasce_settimanali[giorno]
+    for fascia in fascia_giornaliera:
+        if  localita == fascia.localita and ora_xml == fascia.da_ora_xml:
             return fascia
 
-    raise ValueError(f"Fascia non trovata {giorno} {da_controllare}")
+    raise ValueError(f"Fascia non trovata {localita} {giorno} {ora_xml}")

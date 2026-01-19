@@ -1,5 +1,12 @@
 Il file config.json deve stare nella stessa cartella del main.py
 Questo di esempio è specifico per questo orario.
 Se lo si vuole provare copiatelo nella stessa cartella del main.py
-In mancanza di file di configurazione il programma cercherà il più possibile di
-calcolare automaticamente tutti i parametri necessari.
+
+Bisogna inserire le fasce orarie delle varie sedi che solo in parte si riescono a ricostruire,
+quindi è preferibile inserirle manualmente.
+
+Importante è la classe [*] vuol dire tutte (vedere esempio)
+E il tag 'da_ora_xml' che DEVE combaciare con il tag <TIME> del file xml.
+Da mettere in ordine di sede e poi tempo.
+
+In questo esempio ci sono 2 sedi di cui sulla prima il venerdi ci sono delle eccezioni.

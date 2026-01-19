@@ -1,0 +1,53 @@
+{
+  "parametri_xml": {
+    "lunghezza_ora_xml": 60,
+    "subject_da_cancellare": [],
+    "site_da_cancellare": [],
+    "module_da_cancellare": []
+  },
+  "groups_da_sostituire": {},
+  "fasce_settimanali": {
+    "LUN": [
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "07:55", "da_ora": "07:55", "ad_ora": "08:55", "blocco_orario": 1, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "08:55", "da_ora": "08:55", "ad_ora": "09:99", "blocco_orario": 2, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "09:55", "da_ora": "09:55", "ad_ora": "10:50", "blocco_orario": 3, "intervallo": "10:50-11:10"},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "11:10", "da_ora": "11:10", "ad_ora": "12:10", "blocco_orario": 4, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "12:10", "da_ora": "12:10", "ad_ora": "13:10", "blocco_orario": 5, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "13:10", "da_ora": "13:10", "ad_ora": "14:10", "blocco_orario": 6, "intervallo": null}
+    ],
+    "MAR": [
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "07:55", "da_ora": "07:55", "ad_ora": "08:55", "blocco_orario": 1, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "08:55", "da_ora": "08:55", "ad_ora": "09:99", "blocco_orario": 2, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "09:55", "da_ora": "09:55", "ad_ora": "10:50", "blocco_orario": 3, "intervallo": "10:50-11:10"},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "11:10", "da_ora": "11:10", "ad_ora": "12:10", "blocco_orario": 4, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "12:10", "da_ora": "12:10", "ad_ora": "13:10", "blocco_orario": 5, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "13:10", "da_ora": "13:10", "ad_ora": "14:10", "blocco_orario": 6, "intervallo": null}
+   ],
+    "MER": [
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "07:55", "da_ora": "07:55", "ad_ora": "08:55", "blocco_orario": 1, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "08:55", "da_ora": "08:55", "ad_ora": "09:99", "blocco_orario": 2, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "09:55", "da_ora": "09:55", "ad_ora": "10:50", "blocco_orario": 3, "intervallo": "10:50-11:10"},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "11:10", "da_ora": "11:10", "ad_ora": "12:10", "blocco_orario": 4, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "12:10", "da_ora": "12:10", "ad_ora": "13:10", "blocco_orario": 5, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "13:10", "da_ora": "13:10", "ad_ora": "14:10", "blocco_orario": 6, "intervallo": null}
+    ],
+    "GIO": [
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "07:55", "da_ora": "07:55", "ad_ora": "08:55", "blocco_orario": 1, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "08:55", "da_ora": "08:55", "ad_ora": "09:99", "blocco_orario": 2, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "09:55", "da_ora": "09:55", "ad_ora": "10:50", "blocco_orario": 3, "intervallo": "10:50-11:10"},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "11:10", "da_ora": "11:10", "ad_ora": "12:10", "blocco_orario": 4, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "12:10", "da_ora": "12:10", "ad_ora": "13:10", "blocco_orario": 5, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "13:10", "da_ora": "13:10", "ad_ora": "14:10", "blocco_orario": 6, "intervallo": null}
+    ],
+    "VEN": [
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "07:55", "da_ora": "07:55", "ad_ora": "08:55", "blocco_orario": 1, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "08:55", "da_ora": "08:55", "ad_ora": "09:99", "blocco_orario": 2, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "09:55", "da_ora": "09:55", "ad_ora": "10:50", "blocco_orario": 3, "intervallo": "10:50-11:10"},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "11:10", "da_ora": "11:10", "ad_ora": "12:10", "blocco_orario": 4, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "12:10", "da_ora": "12:10", "ad_ora": "13:10", "blocco_orario": 5, "intervallo": null},
+      {"localita": "Vostra_sede", "classe_scolastica": ["*"], "da_ora_xml": "13:10", "da_ora": "13:10", "ad_ora": "14:10", "blocco_orario": 6, "intervallo": null}
+    ],
+    "SAB": [],
+    "DOM": []
+  }
+}
