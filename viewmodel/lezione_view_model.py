@@ -94,6 +94,14 @@ class LezioniTableModel(QAbstractTableModel):
                 ),
                 reverse=reverse
             )
+        elif column == self.COL_AD_ORA:
+            self._lezioni.sort(
+                key=lambda x: (
+                    x.fascia_oraria.ad_ora,
+                    self.ORDINE_GIORNI.get(x.giorno, 99),
+                ),
+                reverse=reverse
+            )
         elif column == self.COL_GIORNO:
             # Esempio ordine giorni
             self._lezioni.sort(
@@ -105,6 +113,9 @@ class LezioniTableModel(QAbstractTableModel):
             )
         elif column == self.COL_CLASSI:
             self._lezioni.sort(key=lambda x: (x.get_classi_scolastiche_sort() or "").lower(), reverse=reverse)
+
+        elif column == self.COL_AULA:
+            self._lezioni.sort(key=lambda x: (x.stanza or "").lower(), reverse=reverse)
         elif column == self.COL_LOCAL:
             self._lezioni.sort(key=lambda x: (x.localita or "", self.ORDINE_GIORNI.get(x.giorno, 99),x.tempo).lower(), reverse=reverse)
 

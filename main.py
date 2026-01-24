@@ -249,6 +249,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             config.giorni_di_scuola = [g for g in config.giorni_di_scuola if g in config.fasce_settimanali]
             print(f"GIORNI DI SCUOLA {config.giorni_di_scuola}")
 
+            self.statusbar.showMessage(f"Caricate {len(self.lezioni)} lezioni, {len(self.insegnanti)} insegnanti, {len(self.classi)} classi, {len(self.stanze)} stanze !!!!")
             # tabella lezioni
             self.table_view_lezioni.setUpdatesEnabled(False)
             self.table_model_lezioni = LezioniTableModel(self.lezioni)
@@ -458,8 +459,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("Orario Facile to HTML")
-    app.setApplicationVersion("1.2")
+    app.setApplicationName("Orario Facile to HTML/XLSX")
+    app.setApplicationVersion("1.3")
 
     window = MainWindow()
     window.show()

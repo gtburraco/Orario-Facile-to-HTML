@@ -82,7 +82,7 @@ class DocentiTableModel(QAbstractTableModel):
             self._docenti.sort(key=lambda d: d.numero_lezioni, reverse=reverse)
 
         elif column == self.COL_CON_CLASSE:
-            self._docenti.sort(key=lambda d: d.ore_con_classe(), reverse=reverse)
+            self._docenti.sort(key=lambda d: d.ore_con_classe, reverse=reverse)
 
         elif column == self.COL_SENZA_CLASSE:
             self._docenti.sort(key=lambda d: d.ore_senza_classe, reverse=reverse)

@@ -8,17 +8,11 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QHBoxLayout, QHeaderView,
-    QLabel, QMainWindow, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QTabWidget,
-    QTableView, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
+from PySide6.QtWidgets import (QAbstractItemView, QHBoxLayout, QLabel, QMenuBar, QPushButton,
+                               QSizePolicy, QSpacerItem, QStatusBar, QTabWidget,
+                               QTableView, QVBoxLayout, QWidget)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -52,7 +46,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.tabWidget = QTabWidget(self.centralwidget)
@@ -84,10 +77,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.table_view_docenti)
 
-        self.label_2 = QLabel(self.tab_docenti)
-        self.label_2.setObjectName(u"label_2")
+        self.label_docenti = QLabel(self.tab_docenti)
+        self.label_docenti.setObjectName(u"label_docenti")
 
-        self.verticalLayout_4.addWidget(self.label_2)
+        self.verticalLayout_4.addWidget(self.label_docenti)
 
         self.tabWidget.addTab(self.tab_docenti, "")
         self.tab_classi = QWidget()
@@ -103,10 +96,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.table_view_classi)
 
-        self.label = QLabel(self.tab_classi)
-        self.label.setObjectName(u"label")
+        self.label_classi = QLabel(self.tab_classi)
+        self.label_classi.setObjectName(u"label_classi")
 
-        self.verticalLayout_5.addWidget(self.label)
+        self.verticalLayout_5.addWidget(self.label_classi)
 
         self.tabWidget.addTab(self.tab_classi, "")
         self.tab_stanze = QWidget()
@@ -121,6 +114,11 @@ class Ui_MainWindow(object):
         self.table_view_stanze.setSortingEnabled(True)
 
         self.verticalLayout_6.addWidget(self.table_view_stanze)
+
+        self.label_aule = QLabel(self.tab_stanze)
+        self.label_aule.setObjectName(u"label_aule")
+
+        self.verticalLayout_6.addWidget(self.label_aule)
 
         self.tabWidget.addTab(self.tab_stanze, "")
 
@@ -139,8 +137,8 @@ class Ui_MainWindow(object):
 
         self.tabWidget.setCurrentIndex(0)
 
-
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -148,11 +146,21 @@ class Ui_MainWindow(object):
         self.load_btn.setText(QCoreApplication.translate("MainWindow", u"Carica XML", None))
         self.salva_html_btn.setText(QCoreApplication.translate("MainWindow", u"Salva HTML", None))
         self.salva_xlsx_btn.setText(QCoreApplication.translate("MainWindow", u"Salva XLSX", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_lezioni), QCoreApplication.translate("MainWindow", u"Lezioni", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Doppio click del mouse per mostrare le lezioni associate al docente", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_docenti), QCoreApplication.translate("MainWindow", u"Docenti", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Doppio click del mouse per mostrare le lezioni associate alla classe", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_classi), QCoreApplication.translate("MainWindow", u"Classi", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_stanze), QCoreApplication.translate("MainWindow", u"Aule", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_lezioni),
+                                  QCoreApplication.translate("MainWindow", u"Lezioni", None))
+        self.label_docenti.setText(QCoreApplication.translate("MainWindow",
+                                                              u"Doppio click del mouse per mostrare le lezioni associate al docente",
+                                                              None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_docenti),
+                                  QCoreApplication.translate("MainWindow", u"Docenti", None))
+        self.label_classi.setText(QCoreApplication.translate("MainWindow",
+                                                             u"Doppio click del mouse per mostrare le lezioni associate alla classe",
+                                                             None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_classi),
+                                  QCoreApplication.translate("MainWindow", u"Classi", None))
+        self.label_aule.setText(QCoreApplication.translate("MainWindow",
+                                                           u"Doppio click del mouse per mostrare le lezioni associate alle aule",
+                                                           None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_stanze),
+                                  QCoreApplication.translate("MainWindow", u"Aule", None))
     # retranslateUi
-

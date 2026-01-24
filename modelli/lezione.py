@@ -30,7 +30,7 @@ class Lezione:
         return '<br>'.join(self.insegnanti) if self.insegnanti else ""
 
     def get_insegnante_orario_html(self) -> str:  # questa per la stampa orario dell'insegnante
-        return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.get_classi_scolastiche_html() + "</b><br>" + self.get_insegnanti_html()
+        return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.get_classi_scolastiche_html() + "</b><br>" + self.get_insegnanti_html()+"<br><small><i>"+self.stanza+"</i></small"
 
     def get_classi_scolastiche_str(self) -> str:
         return ", ".join(self.classi_scolastiche) if self.classi_scolastiche else self.soggetto
@@ -47,7 +47,7 @@ class Lezione:
 
 
     def get_classi_orario_html(self) -> str:  # questa per la stampa orario dell'insegnante
-        return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.soggetto + "</b><br><i>" + self.get_insegnanti_html() + "</i>"
+        return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.soggetto + "</b><br><i>" + self.get_insegnanti_html() + "</i>"+"<br><small><i>"+self.stanza+"</i></small"
 
     def get_stanze_orario_html(self) -> str:  # questa per la stampa orario dell'insegnante
         return "<i>" + self.fascia_oraria.da_ora + " - " + self.fascia_oraria.ad_ora + "</i><br><b>" + self.get_classi_scolastiche_html() + "</b><br><i>" + self.soggetto + "</i><br><b>" + self.get_insegnanti_html() + "</b>"
