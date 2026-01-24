@@ -17,3 +17,7 @@ Il software utilizza un file di configurazione centralizzato per adattarsi alle 
 * Il programma cerca un file config.json, ne è presente uno nella cartella di esempio, in mancanza verrà visualizzato un errore.
 * Modifica le variabili in base alle necessità del tuo istituto.
 * Salva e avvia l'applicazione.
+
+
+Binario per Windows10/11
+https://github.com/gtburraco/Orario-Facile-to-HTML-XLSX/releases/tag/v1.3
